@@ -23,8 +23,12 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(frag|vert)$/,
+        test: /\.(frag|vert|obs)$/,
         use: 'raw-loader'
+      },
+      {
+        test: /\.(mp3)$/,
+        use: 'file-loader'
       }
     ]
   },
