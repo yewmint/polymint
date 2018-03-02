@@ -7,6 +7,8 @@ export default class Rect extends Geometry {
 
     this._width = _.get(config, 'width', 10)
     this._height = _.get(config, 'height', 10)
+
+    this.repaint()
   }
 
   get width() {
