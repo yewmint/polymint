@@ -27,7 +27,7 @@ module.exports = {
         use: 'raw-loader'
       },
       {
-        test: /\.(mp3)$/,
+        test: /\.(mp3|png)$/,
         use: 'file-loader'
       }
     ]

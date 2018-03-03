@@ -9,7 +9,11 @@ let config = {
   parent: 'app',
   width: 450,
   height: 800,
-  scene: [LogoScene, ScoreScene, GameScene],
+  scene: [
+    LogoScene
+    // GameScene,
+    // ScoreScene
+  ],
   physics: {
     default: 'arcade',
     arcade: {

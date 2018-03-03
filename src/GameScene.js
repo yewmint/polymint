@@ -7,8 +7,18 @@ const BALL_HEIGHT = 100
 const BALL_RADIUS = 16
 const BALL_FOLLOW_RATIO = 20
 const SCORE_RATIO = 100
-const FONT =
-  'Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Hiragino Sans GB W3","WenQuanYi Micro Hei",sans-serif'
+const FONT = 'sans-serif'
+
+const COLOR_TABLE = [
+  { time: 4, color: 0xd1f0f5 },
+  { time: 17, color: 0xf5e5d1 },
+  { time: 34, color: 0xd1f0f5 },
+  { time: 51, color: 0xf5e5d1 },
+  { time: 68, color: 0xdff5d1 },
+  { time: 102, color: 0xd1c2dc },
+  { time: 111, color: 0xffadad },
+  { time: 120, color: 0xffffff }
+]
 
 export default class GameScene extends PolyScene {
   constructor() {
@@ -26,8 +36,8 @@ export default class GameScene extends PolyScene {
     let height = this.sys.game.config.height
 
     this.background = new Rect(this, {
-      color: 0x274854,
-      alpha: 0,
+      color: 0xffffff,
+      alpha: 1,
       width,
       height
     })
@@ -38,18 +48,20 @@ export default class GameScene extends PolyScene {
       x: width / 2,
       y: BALL_HEIGHT,
       z: 200,
-      color: 0xfbf1d2,
+      color: 0xea4c89,
       alpha: 0,
       radius: BALL_RADIUS / 2
     })
 
     this.score = 0
     this.scoreText = this.add.text(0, 0, 0)
+    this.scoreText.setColor('#797979')
     this.scoreText.setFontSize(24)
+    this.scoreText.setFontFamily(FONT)
     this._updateScore()
 
     this.mask = new Rect(this, {
-      color: 0,
+      color: 0xffffff,
       alpha: 0,
       width,
       height
@@ -85,14 +97,6 @@ export default class GameScene extends PolyScene {
 
   async enterAnim() {
     await this.asyncTween({
-      targets: this.background,
-      alpha: 1,
-      ease: 'Cubic.easeOut',
-      duration: 500,
-      completeDelay: 200
-    })
-
-    await this.asyncTween({
       targets: this.ball,
       alpha: 1,
       radius: BALL_RADIUS,
@@ -105,7 +109,7 @@ export default class GameScene extends PolyScene {
     this.interactive = true
 
     this.music.play()
-    // this.music.seek = 119
+    this.music.seek = 110
   }
 
   async exitAnim() {
@@ -129,6 +133,8 @@ export default class GameScene extends PolyScene {
     this.targetLine.paintLines(this.music.seek, this.speed)
 
     this.addScore()
+
+    this.controlColor()
 
     // this.devGenNotation()
   }
@@ -179,6 +185,27 @@ export default class GameScene extends PolyScene {
     this.score += curScore
 
     this._updateScore()
+  }
+
+  controlColor() {
+    if (!_.has(this, 'colorIdx')) {
+      this.colorIdx = 0
+    }
+
+    if (this.colorIdx >= COLOR_TABLE.length) {
+      return
+    }
+
+    if (COLOR_TABLE[this.colorIdx].time < this.music.seek) {
+      this.asyncTweenColor({
+        targets: this.background,
+        color: COLOR_TABLE[this.colorIdx].color,
+        duration: 500,
+        completeDelay: 500
+      })
+
+      ++this.colorIdx
+    }
   }
 
   // devGenNotation() {

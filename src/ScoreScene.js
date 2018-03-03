@@ -1,10 +1,6 @@
 import PolyScene from './PolyScene'
-import {
-  Rect
-} from './components'
-import {
-  horizontalCenter
-} from './utils'
+import { Rect } from './components'
+import { horizontalCenter } from './utils'
 
 const SCORE_NUM = 10
 
@@ -28,7 +24,7 @@ export default class ScoreScene extends PolyScene {
     storage.setItem('scores', JSON.stringify(scores))
 
     this.background = new Rect(this, {
-      color: 0x274854,
+      color: 0xffffff,
       width,
       height
     })
@@ -38,12 +34,14 @@ export default class ScoreScene extends PolyScene {
     scores.forEach((ele, idx) => {
       let text = this.centerText(`${idx + 1}. ${ele}`, 280 + 30 * idx, 20)
       if (ele === score) {
-        text.setColor(0xff0000)
+        text.setColor('#ea4c89')
       }
     })
 
+    this.restart = this.centerText('Tap to restart', 610, 24)
+
     this.mask = new Rect(this, {
-      color: 0,
+      color: 0xffffff,
       alpha: 1,
       width,
       height
