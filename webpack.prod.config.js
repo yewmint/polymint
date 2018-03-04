@@ -1,14 +1,12 @@
 const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
 
   target: 'web',
-
-  devtool: 'inline-source-map',
 
   output: {
     path: path.resolve(__dirname, 'www'),
@@ -35,11 +33,6 @@ module.exports = {
     ]
   },
 
-  devServer: {
-    contentBase: path.join(__dirname, 'www'),
-    compress: true
-  },
-
   plugins: [
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),
@@ -50,8 +43,8 @@ module.exports = {
       title: 'polymint',
       filename: 'index.html',
       template: 'src/index.ejs'
-    })
+    }),
 
-    // new UglifyJsPlugin()
+    new UglifyJsPlugin()
   ]
 }

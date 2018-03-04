@@ -27,9 +27,7 @@ export default class GameScene extends PolyScene {
     })
   }
 
-  preload() {
-    this.load.audio('level-music-1', levelMusic1)
-  }
+  preload() {}
 
   create() {
     let width = this.sys.game.config.width
@@ -109,7 +107,7 @@ export default class GameScene extends PolyScene {
     this.interactive = true
 
     this.music.play()
-    this.music.seek = 110
+    // this.music.seek = 110
   }
 
   async exitAnim() {
