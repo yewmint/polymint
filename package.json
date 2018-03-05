@@ -16,6 +16,7 @@
         "cordova-android": "^7.0.0",
         "cordova-browser": "^5.0.3",
         "cordova-plugin-screensize": "^1.3.1",
+        "cordova-plugin-statusbar": "^2.4.1",
         "cordova-plugin-whitelist": "^1.3.3",
         "lodash": "^4.17.4",
         "phaser": "^3.1.2"
@@ -23,7 +24,8 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-screensize": {}
+            "cordova-plugin-screensize": {},
+            "cordova-plugin-statusbar": {}
         },
         "platforms": [
             "browser",

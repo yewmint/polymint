@@ -5,7 +5,7 @@ import { Circle, Rect, TargetLine } from './components'
 
 const BALL_HEIGHT = 100
 const BALL_RADIUS = 16
-const BALL_FOLLOW_RATIO = 20
+const BALL_FOLLOW_RATIO = 40
 const SCORE_RATIO = 100
 const FONT = 'sans-serif'
 
@@ -68,7 +68,6 @@ export default class GameScene extends PolyScene {
     this.touchX = this.ball.x
 
     this.music = this.sound.add('level-music-1')
-    this.lastSeek = 0
 
     this.speed = 400
 
@@ -106,7 +105,6 @@ export default class GameScene extends PolyScene {
     this.gameReady = true
     this.interactive = true
 
-    this.music.play()
     // this.music.seek = 110
   }
 
@@ -124,11 +122,23 @@ export default class GameScene extends PolyScene {
   update(dur, dt) {
     if (!this.gameReady) return
 
+    if (!_.has(this, 'startTime')) {
+      this.startTime = dur + 200
+      this.lastSeek = 0
+      this.music.play()
+    }
+
+    this.musicTime = _.clamp(
+      (dur - this.startTime) / 1000,
+      0,
+      Number.POSITIVE_INFINITY
+    )
+
     if (this.interactive) {
       this.moveBallToFinger(dt)
     }
 
-    this.targetLine.paintLines(this.music.seek, this.speed)
+    this.targetLine.paintLines(this.musicTime, this.speed)
 
     this.addScore()
 
@@ -166,8 +176,8 @@ export default class GameScene extends PolyScene {
   }
 
   addScore() {
-    let seekDelta = this.music.seek - this.lastSeek
-    this.lastSeek = this.music.seek
+    let seekDelta = this.musicTime - this.lastSeek
+    this.lastSeek = this.musicTime
 
     let width = this.sys.game.config.width
     let delta = _.clamp(

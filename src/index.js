@@ -7,27 +7,19 @@ import ScoreScene from './ScoreScene'
 document.addEventListener('deviceready', onDeviceReady, false)
 
 function onDeviceReady() {
-  window.plugins.screensize.get(successCallback, errorCallback)
-}
+  StatusBar.hide()
 
-function successCallback({ width, height }) {
   let config = {
     type: Phaser.AUTO,
     parent: 'app',
-    width,
-    height,
-    scene: [LogoScene, GameScene, ScoreScene],
-    physics: {
-      default: 'arcade',
-      arcade: {
-        debug: false
-      }
-    }
+    width: window.screen.width,
+    height: window.screen.height,
+    zoom: 0.99999999, // hack
+    resolution: window.devicePixelRatio,
+    scene: [LogoScene, GameScene, ScoreScene]
   }
 
   window.game = new Phaser.Game(config)
-}
-
-function errorCallback(result) {
-  console.log('can not get screen size.')
+  console.log('ratio:')
+  console.log(window.devicePixelRatio.toString())
 }
